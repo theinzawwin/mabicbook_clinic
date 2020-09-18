@@ -169,27 +169,18 @@ List<DateTime> calculateDaysInterval(DateTime startDate, DateTime endDate) {
       DateTime adate=startDate.add(Duration(days: i));
       if(weekDayList.contains(adate.weekday)){
         List<Map<dynamic,dynamic>> evList=[];
-        Map<dynamic,dynamic> eobject={};
+      
         //evList.add(eobject);
         List<ScheduleDetailModel> sdList=dayList[adate.weekday];
-        for(int d=0;d<sdList.length;d++){
-          ScheduleDetailModel sd=sdList[d];
-          eobject["name"]="${sd.startTime} - ${sd.endTime}";
+        sdList.forEach((d){
+            Map<dynamic,dynamic> eobject={};
+           eobject["name"]="${d.startTime} - ${d.endTime}";
           eobject["isDone"]=true;
           evList.add(eobject);
-        }
-      //  dayList[adate.weekday].forEach((d)=>(evList.add(eobject["name"]="${d.startTime} - ${d.endTime}")  ));
-           // evList["isDone"]=true;);
+        });
+         eventTime[DateTime(adate.year,adate.month,adate.day)]=evList;
         
-          
-        eventTime[DateTime(adate.year,adate.month,adate.day)]=evList;
-        //days.add(adate);
       } // true
-      /*8if(adate.weekday==1 || adate.weekday==4){
-        days.add(adate);
-      }
-      */
-
      
     }
     return eventTime;
@@ -220,13 +211,15 @@ List<DateTime> calculateDaysInterval(DateTime startDate, DateTime endDate) {
         }
     );
     */
+     if(widget.scheduleModel!=null){
     setState(() {
-      if(widget.scheduleModel!=null){
+     
        detailList=widget.scheduleModel.details;
     _events=getEventList(DateTime.now(),dateFormat.parse(widget.scheduleModel.endDate) );
       print("Print Date${widget.scheduleModel.startDate} Event $_events");
-    }
+    
     });
+    }
     
    
     /*if(clinicModel!=null){
@@ -248,9 +241,12 @@ List<DateTime> calculateDaysInterval(DateTime startDate, DateTime endDate) {
   Widget build(BuildContext context) {
     return 
          Container(
-          margin:const EdgeInsets.all(16.0),
+          margin:const EdgeInsets.all(16.0),          
+         
             child: Column(
                  mainAxisSize: MainAxisSize.max,
+                 mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
            Calendar(
         eventColor: Colors.orange,
@@ -269,21 +265,24 @@ List<DateTime> calculateDaysInterval(DateTime startDate, DateTime endDate) {
       ),
       _buildEventList()
         ],
-            ),
-         
-    );
+        
+          )    
+         );
   }
   Widget _buildEventList() {
     return Expanded(
-      child: ListView.builder(
+      child: 
+      ListView.builder(
+       // shrinkWrap: true,
         itemBuilder: (BuildContext context, int index) => Container(
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(width: 1.5, color: Colors.black12),
                 ),
               ),
+              
               padding:
-                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
+            const EdgeInsets.symmetric(horizontal: 0.0, vertical: 4.0),
               child: ListTile(
                 title: Text(_selectedEvents[index]['name'].toString()),
                 onTap: () {},

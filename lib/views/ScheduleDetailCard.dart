@@ -30,7 +30,12 @@ class ScheduleDetailCard extends StatelessWidget {
            Expanded(
             child: Text('${scheduleDetail.maxPatientCount}',textAlign: TextAlign.end,),
           ),
-          
+          RaisedButton(onPressed: 
+          (){
+
+          },
+          child: Text('Delete'),
+        )
          
         ],
       ), 

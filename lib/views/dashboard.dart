@@ -108,9 +108,7 @@ class _DashboardState extends State<Dashboard>{
           physics: NeverScrollableScrollPhysics(),
         //  padding: EdgeInsets.all(8.0),
           children: <Widget>[
-             CustomCardTile("Clinic", Icons.local_hospital, Theme.of(context).primaryColor, (){Navigator.pushNamed(context, "/profile");}),
-            
-             
+             CustomCardTile("Clinic", Icons.local_hospital, Theme.of(context).primaryColor, (){Navigator.pushNamed(context, "/profile");}),            
               CustomCardTile("Doctor", Icons.person, Theme.of(context).primaryColor, (){ Navigator.push(context, MaterialPageRoute(builder: (context) => DoctorList(clinicModel: _clinicModel,)));}),
             
          /* GestureDetector(

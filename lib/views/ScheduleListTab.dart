@@ -6,9 +6,11 @@ import 'package:magicbook_app/models/ScheduleModel.dart';
 import 'package:magicbook_app/util/MagicManager.dart';
 import 'package:magicbook_app/views/ScheduleDetail.dart';
 import 'package:magicbook_app/views/ScheduleManageList.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class ScheduleListTab extends StatefulWidget {
   DoctorModel doctor;
+ 
   ScheduleListTab({Key key,this.doctor}):super(key:key);
   MagicManager manager= MagicManager();
   @override
@@ -16,6 +18,7 @@ class ScheduleListTab extends StatefulWidget {
 }
 
 class _ScheduleListTabState extends State<ScheduleListTab> with SingleTickerProviderStateMixin {
+   // ProgressDialog pr;
    TabController _tabController;
    ClinicModel clinicModel;
    List<ScheduleDetailModel> detailList;
@@ -23,7 +26,24 @@ class _ScheduleListTabState extends State<ScheduleListTab> with SingleTickerProv
    @override
   void initState() {
     // TODO: implement initState
-   
+    /*pr = new ProgressDialog(context,type: ProgressDialogType.Normal);
+     pr.style(message: 'Showing some progress...');
+    
+    //Optional
+    pr.style(
+          message: 'Please wait...',
+          borderRadius: 10.0,
+          backgroundColor: Colors.white,
+          progressWidget: CircularProgressIndicator(),
+          elevation: 10.0,
+          insetAnimCurve: Curves.easeInOut,
+          progressTextStyle: TextStyle(
+              color: Colors.black, fontSize: 13.0, fontWeight: FontWeight.w400),
+          messageTextStyle: TextStyle(
+              color: Colors.black, fontSize: 19.0, fontWeight: FontWeight.w600),
+        ); 
+        pr.show();
+        */
      widget.manager.getClinicInfo().then(       
         (val){
           setState(() {
@@ -35,6 +55,7 @@ class _ScheduleListTabState extends State<ScheduleListTab> with SingleTickerProv
 
                detailList=scheduleModel!=null ?scheduleModel.details:[];
                print('Schedule Detail List ${detailList.length}');
+             //  pr.dismiss();
            });
          }
        );
@@ -70,7 +91,7 @@ class _ScheduleListTabState extends State<ScheduleListTab> with SingleTickerProv
       body: TabBarView(
           children: [
             ScheduleDetail(scheduleModel:scheduleModel,),
-            ScheduleManageList(doctor: widget.doctor,)
+            ScheduleManageList(doctor: widget.doctor,scheduleList: detailList),
       ],
       controller: _tabController,),
     );
